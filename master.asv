@@ -1,6 +1,9 @@
 %BLOCK 1: DATA EXTRACTION
 
-extractdata('data',1);
+key = 0; %Only male 
+%key = 1; %Only female 
+%key = 2; %Both 
+extractdata('data',key);
 
 %MAKE NOISY DATA
 
@@ -24,10 +27,12 @@ end
 %Standard, with noise, or impostors)
 
 %BLOCK 2: Extract MFCC Coefficients
-%Onlt coefficiekey =
+key = 0; %Only coefficients 
+%key = 1; %With delta 
+%key = 2; %With delta-delta 
 
 for i = 10:-2:2
-    extractmfcc('dataextracts',i,1)
+    extractmfcc('dataextracts',i,key)
 end
 
     for i = 10:-2:2
@@ -54,14 +59,10 @@ end
         elap(z/2,i) = e;
         disp(strcat('Words: ',num2str(words),' EER = ',num2str(EER(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
     end
-    cd('experiment');
-    for y = 1:folds
-        rmdir(strcat('k',num2str(y)),'s');
-    end    
-    cd ..;
+    rmdir('experiment','s');
     EER(z/2,5) = 0;
     
-for z = 4:2:10    
+for z = 4:2:6    
     kfold(z,folds,samplesperspk);
 %BLOCK 3: Model
     for i = 1:5
@@ -75,9 +76,5 @@ for z = 4:2:10
         elap(z/2,i) = e;
         disp(strcat('Words: ',num2str(words),' EER = ',num2str(EER(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
     end
-    cd('experiment');
-    for y = 1:folds
-        rmdir(strcat('k',num2str(y)),'s');
-    end    
-    cd ..;
+    rmdir('experiment','s');
 end

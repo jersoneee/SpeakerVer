@@ -27,9 +27,9 @@ end
 %Standard, with noise, or impostors)
 
 %BLOCK 2: Extract MFCC Coefficients
-%key = 0; %Only coefficients 
+key = 0; %Only coefficients 
 %key = 1; %With delta 
-key = 2; %With delta-delta 
+%key = 2; %With delta-delta 
 
 for i = 10:-2:2
     extractmfcc('dataextracts',i,key)
@@ -43,9 +43,10 @@ end
 %Perform Cross-Validation Scheme
     folds = 5;
     samplesperspk = 50;
+    durmax = 10;
     
 %BLOCK 3: Model    
-%%%%FOR2sec only 
+%%%%For 2sec only 
     z=2;
     kfold(z,folds,samplesperspk);
     for i = 1:4
@@ -59,30 +60,24 @@ end
         elap(z/2,i) = e;
         disp(strcat('Words: ',num2str(words),' EER = ',num2str(EER(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
     end
-    cd('experiment');
-    for y = 1:folds
-        rmdir(strcat('k',num2str(y)),'s');
-    end    
-    cd ..;
-    EER(z/2,5) = 0;
+    rmdir('experiment','s');
+    EER(z/2,5) = NaN;
     
-for z = 4:2:6    
+    
+    
+for z = 4:2:durmax    
     kfold(z,folds,samplesperspk);
 %BLOCK 3: Model
     for i = 1:5
         words = 2^i*8;
         %words =64;
         t = cputime;
-        centroids = vqlearn(words);
+        centroids = vqlearnb(words);
         distance = vqtest(centroids,words);
         [EER(z/2,i),threshold] = vqeer(distance,z,words);
         e = cputime - t;
         elap(z/2,i) = e;
         disp(strcat('Words: ',num2str(words),' EER = ',num2str(EER(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
     end
-    cd('experiment');
-    for y = 1:folds
-        rmdir(strcat('k',num2str(y)),'s');
-    end    
-    cd ..;
+    rmdir('experiment','s');
 end

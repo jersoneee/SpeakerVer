@@ -1,9 +1,10 @@
-function [] = extractmfcc(datapath,duration);
+function [] = extractmfcc(datapath,duration,key);
 
+disp(strcat('Extracting mfccs for ',num2str(duration),' seconds')); 
 fs = 16000;
 durpath = strcat(num2str(duration),'seconds');
 
-
+cd ..;
 cd(datapath);
 cd(durpath);
 
@@ -32,11 +33,20 @@ for i=1:numel(files)
     mfccvec=[];
     for k=1:size(speaker,2)
         [coeffs,delta,deltaDelta] = mfcc(speaker(:,k),fs,'LogEnergy','Ignore','NumCoeffs',12);
-        mfccvec=[mfccvec,[coeffs';delta';deltaDelta']];
+        if key == 0
+            mfccvec=[mfccvec,[coeffs']];
+        elseif key == 1
+            mfccvec=[mfccvec,[coeffs';delta']];
+        else
+            mfccvec=[mfccvec,[coeffs';delta';deltaDelta']];
+        end
     end
     save(strcat(files(i).name(1:3),'mfcc.mat'),'mfccvec');
 end
 
 cd ..;
 cd ..;
+cd('SpeakerVer');
+disp(strcat('Complete.')); 
+
 end

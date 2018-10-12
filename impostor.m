@@ -3,7 +3,7 @@ function [] = impostor(pitchchange, duration)
     % signal-to-noise ratio (in dB), and duration of the signal. Noise is Additive White Gaussian Noise.
     % Makes a new directory, noisyextracts to save from.
 fs = 16000;
-
+cd ..;
 cd('dataextracts');
 durpath = strcat(num2str(duration),'seconds');
 cd(durpath);
@@ -47,4 +47,5 @@ cd ..;
 cd ..;
 cd ..;
 
+cd('SpeakerVer');
 end

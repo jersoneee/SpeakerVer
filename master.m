@@ -1,6 +1,9 @@
 %BLOCK 1: DATA EXTRACTION
 
-extractdata('data');
+%key = 0; %Only male 
+key = 1; %Only female 
+%key = 2; %Both 
+extractdata('data',key);
 
 %MAKE NOISY DATA
 
@@ -24,15 +27,20 @@ end
 %Standard, with noise, or impostors)
 
 %BLOCK 2: Extract MFCC Coefficients
+%key = 0; %Only coefficients 
+%key = 1; %With delta 
+key = 2; %With delta-delta 
 
 for i = 10:-2:2
-    extractmfcc('dataextracts',i)
+    extractmfcc('dataextracts',i,key)
 end
 
     for i = 10:-2:2
         normalizemfcc(i)
     end
-    %Perform Cross-Validation Scheme
+    
+    
+%Perform Cross-Validation Scheme
     folds = 5;
     samplesperspk = 50;
     
@@ -58,7 +66,7 @@ end
     cd ..;
     EER(z/2,5) = 0;
     
-for z = 4:2:10    
+for z = 4:2:6    
     kfold(z,folds,samplesperspk);
 %BLOCK 3: Model
     for i = 1:5

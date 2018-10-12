@@ -4,7 +4,7 @@ function [] = sampledata(duration,files,filepath,samplesperspk)
    
 
 
-
+cd ..;
 cd('dataextracts');
 
 %Make a folder that corresponds to the duration
@@ -31,4 +31,6 @@ end
 %Go back to parent
 cd ..;
 cd ..;
+
+cd('SpeakerVer');
 end

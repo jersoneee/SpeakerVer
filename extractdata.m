@@ -2,12 +2,18 @@
 %snippets of the file, and puts them on 5 different folders. Specific to
 %the Filipino Speech Corpus (FSC) formatting.
 
-function [] = extractdata(x)
+function [] = extractdata(datapath,key)
 %x = 'data'
 clc;
 workspace;
 
-cd(x);
+cd(datapath);
+
+if key ==0
+    cd('Male');
+elseif key==1
+    cd('Female');
+end
 
 
 %Find all relevant files in the data folder
@@ -22,12 +28,16 @@ end
 samplesperspk = 50;
 
 % Go back to parent folder
+cd ..;
 cd ..; 
-
+cd ..;
 %Make a sperate folder t put extracted data
 if exist('dataextracts') ~=7
     mkdir('dataextracts');
 end
+
+cd('SpeakerVer');
+
 %Extract the first 25 samples from each file, then put in appropriate
 %folders
 disp('Extracting data for 10s');

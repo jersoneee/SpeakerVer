@@ -3,7 +3,7 @@ function [] = noisify(SNR,duration)
     % signal-to-noise ratio (in dB), and duration of the signal. Noise is Additive White Gaussian Noise.
     % Makes a new directory, noisyextracts to save from.
 
-
+cd ..;
 cd('dataextracts');
 durpath = strcat(num2str(duration),'seconds');
 cd(durpath);
@@ -40,5 +40,7 @@ end
 cd ..;
 cd ..;
 cd ..;
+
+cd('SpeakerVer');
 
 end

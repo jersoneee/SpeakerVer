@@ -1,7 +1,9 @@
 function [] = normalizemfcc(duration);
 
+disp(strcat('Normalizing ',num2str(duration),' seconds.'));
 fs = 16000;
 durpath = strcat(num2str(duration),'seconds');
+cd ..;
 cd('mfccunnorm');
 cd(durpath);
 
@@ -39,4 +41,6 @@ end
 
 cd ..;
 cd ..;
+cd('SpeakerVer');
+disp('Complete.');
 end

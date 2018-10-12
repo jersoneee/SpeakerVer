@@ -1,7 +1,8 @@
 function [] = kfold(duration,folds,samplesperspk);
 
+disp('Performing Cross-Validation sets.');
 durpath = strcat(num2str(duration),'seconds');
-
+cd ..;
 cd ('mfccextracts');
 
 cd (durpath);
@@ -15,7 +16,7 @@ end
 
 cd ..;
 cd ..;
-
+cd('SpeakerVer');
 if exist('experiment') ~= 7
     mkdir('experiment');
 end
@@ -68,4 +69,6 @@ for i=1:folds
     cd ..;
 end
 cd ..;
+
+disp('Complete.');
 end

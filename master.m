@@ -1,11 +1,20 @@
-%BLOCK 1: DATA EXTRACTION
+%This series of codes describe the Speaker Verification System. They are
+%arranged according to their block sequence, with their corresponding
+%function calls.
+
+%BLOCK 1: DATA EXTRACTION: Extract the data from a specified folder into
+%usable segments, then save as .mat files into another folder (no feature extraction yet). Use keys
+%accordingly to specify to only extract male, female, or both.
 
 key = 0; %Only male 
 %key = 1; %Only female 
 %key = 2; %Both 
 extractdata('data',key);
 
-%MAKE NOISY DATA
+%MAKE NOISY DATA: From the extracted data, introduce Additive White
+%Gaussian Noise to the segments.
+% i: specifies the duration
+% k: specifies the Signal-to-Noise Ratio (SNR)
 
 for i = 10:-2:2
     for k = 24:6:48
@@ -14,7 +23,11 @@ for i = 10:-2:2
 end
 
 
-%MAKE IMPOSTOR DATA
+%MAKE IMPOSTOR DATA: From the extracted data, change the pitch of the
+%samples to controllably emulate as impostors for the system.
+% i: specifies the duration
+% k: specifies the pitch change. Negative values mean lower voice, while
+% positive values translate into higher voice.
 
 for i = 10:-2:2
     for k = -5:2.5:5
@@ -23,21 +36,26 @@ for i = 10:-2:2
 end
 
 
-%Start Experimentation: Vary datapath according to experiment (e.g.
-%Standard, with noise, or impostors)
+%Start Experimentation: Specify the datapath where the experiment will be
+%conducted (e.g. 'dataextracts', 'fakeextracts', or 'noisyextracts')
+datapath = 'dataextracts';
 
-%BLOCK 2: Extract MFCC Coefficients
+%BLOCK 2: Extract MFCC Coefficients: Extract MFCC coefficients from the
+%specified datapath. Provides an option to extract only the main
+%coefficients, or add the first and/or second derivatives.
+% i: specifies the duration
+
 key = 0; %Only coefficients 
 %key = 1; %With delta 
 %key = 2; %With delta-delta 
 
 for i = 10:-2:2
-    extractmfcc('dataextracts',i,key)
+    extractmfcc(datapath,i,key)
 end
 
-    for i = 10:-2:2
-        normalizemfcc(i)
-    end
+for i = 10:-2:2
+    normalizemfcc(i)
+end
     
     
 %Perform Cross-Validation Scheme

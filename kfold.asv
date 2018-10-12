@@ -49,8 +49,7 @@ for i=1:folds
         temp = mfccsamp{i};
         a = size(temp);
         sample= mat2cell(temp,a(1),(a(2)/(samplesperspk/folds))*ones(1,samplesperspk/folds));
-        b = regexp(files(k).name,'\d+','match');
-        save(strcat(b{1},'.mat'),'sample');
+        save(strcat(files(k).name(1:end-7),'.mat'),'sample');
         cd ..;
 
         cd('dev');
@@ -63,8 +62,7 @@ for i=1:folds
                 break
             end
         end
-        b = regexp(files(k).name,'\d+','match');
-        save(strcat(b{1},'.mat'),'sample');
+        save(strcat(files(k).name(1:3),'.mat'),'sample');
         cd ..;
         
     end

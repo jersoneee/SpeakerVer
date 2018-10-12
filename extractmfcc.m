@@ -41,7 +41,8 @@ for i=1:numel(files)
             mfccvec=[mfccvec,[coeffs';delta';deltaDelta']];
         end
     end
-    save(strcat(files(i).name(1:3),'mfcc.mat'),'mfccvec');
+    a = regexp(files(i).name,'\d+_','match');
+    save(strcat(a{1}(1:end-1),'mfcc.mat'),'mfccvec');
 end
 
 cd ..;

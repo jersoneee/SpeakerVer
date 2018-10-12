@@ -37,6 +37,13 @@ end
     legend({'FRR','FAR'},'Location','southwest')
     hold off
     threshold = threshold(idx);
+    cd ..;
+    if exist('Graphs') ~= 7
+    mkdir('Graphs');
+    end
+    cd('Graphs');
     saveas(errorplot,strcat(num2str(dur),' seconds, ', num2str(words),' words.jpg'));
+    cd ..;
+    cd('SpeakerVer');
     close(errorplot);
 end

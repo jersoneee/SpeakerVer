@@ -1,6 +1,6 @@
 function [] = extractmfcc(datapath,duration,key);
 
-disp(strcat('Extracting mfccs for ',num2str(duration),' seconds')); 
+disp(strcat('Extracting MFCCs for:',num2str(duration),' seconds')); 
 fs = 16000;
 durpath = strcat(num2str(duration),'seconds');
 

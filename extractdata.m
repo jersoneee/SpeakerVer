@@ -32,9 +32,29 @@ cd ..;
 cd ..; 
 cd ..;
 %Make a sperate folder t put extracted data
-if exist('dataextracts') ~=7
-    mkdir('dataextracts');
+
+if exist('dataextracts') ==7
+   rmdir('dataextracts','s');
 end
+    mkdir('dataextracts');
+
+if exist('mfccunnorm') ==7
+   rmdir('mfccunnorm','s');
+end
+
+if exist('mfccextracts') ==7
+   rmdir('mfccextracts','s');
+end
+
+if exist('noisyextracts') ==7
+   rmdir('noisyextracts','s');
+end
+
+if exist('fakeextracts') ==7
+   rmdir('fakeextracts','s');
+end
+
+
 
 cd('SpeakerVer');
 

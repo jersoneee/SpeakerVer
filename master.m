@@ -1,7 +1,7 @@
 %BLOCK 1: DATA EXTRACTION
 
-%key = 0; %Only male 
-key = 1; %Only female 
+key = 0; %Only male 
+%key = 1; %Only female 
 %key = 2; %Both 
 extractdata('data',key);
 

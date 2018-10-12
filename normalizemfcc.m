@@ -1,6 +1,6 @@
 function [] = normalizemfcc(duration);
 
-disp(strcat('Normalizing ',num2str(duration),' seconds.'));
+disp(strcat('Normalizing:',num2str(duration),' seconds.'));
 fs = 16000;
 durpath = strcat(num2str(duration),'seconds');
 cd ..;

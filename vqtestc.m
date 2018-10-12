@@ -1,4 +1,4 @@
-function bigD = vqtest(centroids,words);
+function bigD = vqtestc(centroids,words);
 
 epsilon = 0.0001;
 disp('Testing...');

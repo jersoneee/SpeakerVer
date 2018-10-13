@@ -15,10 +15,9 @@ for i=1:numel(files)
 end
 cd ..;
 cd ..;
-if exist('mfccextracts') == 7
-   rmdir('mfccextracts','s');
+if exist('mfccextracts') ~= 7
+    mkdir('mfccextracts');
 end
-mkdir('mfccextracts');
 cd ('mfccextracts');
 
 if exist(durpath) ~=7

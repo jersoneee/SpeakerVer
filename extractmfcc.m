@@ -17,10 +17,11 @@ end
 cd ..;
 cd ..;
 
-if exist('mfccunnorm') == 7
-   rmdir('mfccunnorm','s');
+
+
+if exist('mfccunnorm') ~= 7
+   mkdir('mfccunnorm');
 end
-mkdir('mfccunnorm');
 cd ('mfccunnorm');
 
 if exist(durpath) ~=7

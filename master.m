@@ -49,6 +49,7 @@ key = 0; %Only coefficients
 %key = 1; %With delta 
 %key = 2; %With delta-delta 
 
+rmdir('mfccunnorm','s');
 for i = 10:-2:2
     extractmfcc(datapath,i,key)
 end
@@ -58,6 +59,7 @@ end
 %and divides by the population's standard deviation.
 % i: specifies the duration
 
+rmdir('mfccextracts','s');
 for i = 10:-2:2
     normalizemfcc(i)
 end

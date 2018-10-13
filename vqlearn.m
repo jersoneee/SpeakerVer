@@ -19,7 +19,7 @@ for i=1:num_dir
         sample = sample';
         %opts = statset('Display','final');
         %[idx,C] = kmeans(sample,words,'Replicates',5,'Options',opts,'MaxIter',1000);
-        [idx,C] = kmeans(sample,words,'Replicates',5,'MaxIter',1000);
+        [idx,C] = kmeans(sample,words,'MaxIter',1000);
         centroids{k,i} = C;
     end
     cd ..;

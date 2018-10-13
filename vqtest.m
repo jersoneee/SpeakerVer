@@ -38,7 +38,8 @@ for fold=1:num_dir
     for m=1:numel(filepath)
         distance = 0;
         C = centroids{m,fold};
-        speakerid = files(m).name(1:end-4);
+        b = regexp(files(m).name,'\d+','match');
+        speakerid = b{1};
         for i=1:numel(observations)
             for l = 0:log2(words)
                 if l==0

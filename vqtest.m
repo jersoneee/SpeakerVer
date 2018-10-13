@@ -23,7 +23,8 @@ for fold=1:num_dir
       load(filepath(i));
         for k = 1:numel(sample)
             a = size(sample{k});
-            sample{k} = [sample{k}' str2double(files(i).name(1:3))*ones(a(2),1)];
+            b = regexp(files(i).name,'\d+','match');
+            sample{k} = [sample{k}' str2double(b{1})*ones(a(2),1)];
         end
         if i==1
         observations=sample;

@@ -53,40 +53,31 @@ for i = 10:-2:2
     extractmfcc(datapath,i,key)
 end
 
-    for i = 10:-2:2
-        normalizemfcc(i)
-    end
-    
-    
+%BLOCK 2.5: Normalize MFCC Coefficients. For distance-based metrics (like VQ),
+%normalization will help in improving classification. Subtracts every coefficients with its overall mean,
+%and divides by the population's standard deviation.
+% i: specifies the duration
+
+for i = 10:-2:2
+    normalizemfcc(i)
+end
+
+
+%BLOCK 3: MODEL: Makes models 
+
 %Perform Cross-Validation Scheme
     folds = 5;
     samplesperspk = 50;
-    durmax = 10;
+    durmax = 4;
     
-%BLOCK 3: Model    
-%%%%For 2sec only 
-    z=2;
-    kfold(z,folds,samplesperspk);
-    for i = 1:4
-        words = 2^i*8;
-        %words =64;
-        t = cputime;
-        centroids = vqlearnb(words);
-        distance = vqtest(centroids,words);
-        [EER(z/2,i),threshold] = vqeer(distance,z,words);
-        e = cputime - t;
-        elap(z/2,i) = e;
-        disp(strcat('Words: ',num2str(words),' EER = ',num2str(EER(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
-    end
-    rmdir('experiment','s');
-    EER(z/2,5) = NaN;
-    
-    
-    
-for z = 4:2:durmax    
+for z = 2:2:durmax    
     kfold(z,folds,samplesperspk);
 %BLOCK 3: Model
     for i = 1:5
+        if i==5 && z==2
+            EER(z/2,5) = NaN;
+            break;
+        end
         words = 2^i*8;
         %words =64;
         t = cputime;

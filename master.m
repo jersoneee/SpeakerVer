@@ -84,7 +84,9 @@ end
     durmax = 4;
     
 for z = 2:2:durmax    
-    rmdir('experiment','s');
+    if exist('experiment') ==7
+        rmdir('experiment','s');
+    end
     kfold(z,folds,samplesperspk);
     for i = 1:5
         if i==5 && z==2

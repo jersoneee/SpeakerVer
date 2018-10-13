@@ -83,7 +83,9 @@ end
     samplesperspk = 50;
     z=2;
 for y = 1:100    
-    rmdir('experiment','s');
+    if exist('experiment') ==7
+        rmdir('experiment','s');
+    end
     kfold(z,folds,samplesperspk);
     for i = 1:4
         words = 2^i*8;

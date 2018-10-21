@@ -7,7 +7,7 @@
 %accordingly to specify to only extract male, female, or both.
 for keyA = 0:2 
     
-    extractdata('data',keyA);
+    extractdata('dataprepro',keyA);
 
 
     datapath = 'dataextracts';

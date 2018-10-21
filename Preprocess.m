@@ -16,7 +16,6 @@ for k=1:numel(files)
 disp(strcat("Processing: ",files(k).name));
                   
 [speech,Fs] = audioread(filepath(k));
-speech = speech(1:280000);
 
 % Initialize VAD parameters
 VAD_cst_param = vadInitCstParams;

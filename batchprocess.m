@@ -48,7 +48,7 @@ for keyA = 0:2
 
         folds = 5;
         samplesperspk = 50;
-        durmax = 2;
+        durmax = 10;
     
         for z = 2:2:durmax    
             if exist('experiment') ==7

@@ -103,5 +103,5 @@ for z = 2:2:durmax
         disp(strcat('Words: ',num2str(words),' EER = ',num2str(EER(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
     end
 end
-    save('../Graphs/EER.mat'),'EER');
-    save('../Graphs/elap.mat'),'elap');
+    save('../Graphs/EER.mat','EER');
+    save('../Graphs/elap.mat','elap');

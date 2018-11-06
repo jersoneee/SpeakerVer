@@ -75,12 +75,7 @@ for keyA = 0:2
                 rmdir('experiment','s');
             end
             kfold(z,folds,samplesperspk);
-            for i = 1:9
-                if i==9 && z==2
-                    EER{z/2,9} = NaN;
-                    avg(z/2,9) = NaN;
-                    break;
-                end
+            for i = 1:7
                 mixtures = 2^(i-1);
                 t = cputime;
                 gmm = gmmlearn(mixtures);
@@ -182,12 +177,7 @@ for keyA = 0:2
                 rmdir('experiment','s');
             end
             kfold(z,folds,samplesperspk);
-            for i = 1:9
-                if i==9 && z==2
-                    EER{z/2,9} = NaN;
-                    avg(z/2,9) = NaN;
-                    break;
-                end
+            for i = 1:7
                 mixtures = 2^(i-1);
                 t = cputime;
                 gmm = gmmlearn(mixtures);

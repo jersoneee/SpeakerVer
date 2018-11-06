@@ -81,7 +81,7 @@ end
 % 2^i*8: specifies the number of words
     folds = 5;
     samplesperspk = 50;
-    durmax = 4;
+    durmax = 2;
     
 for z = 2:2:durmax    
     if exist('experiment') ==7
@@ -90,18 +90,19 @@ for z = 2:2:durmax
     kfold(z,folds,samplesperspk);
     for i = 1:5
         if i==5 && z==2
-            EER(z/2,5) = NaN;
+            EER{z/2,5} = NaN;
+            avg(z/2,5) = NaN;
             break;
         end
         words = 2^i*8;
         t = cputime;
         centroids = vqlearnb(words);
         distance = vqtest(centroids,words);
-        [EER(z/2,i),threshold] = vqeer(distance,z,words);
+        [EER{z/2,i},avg(z/2,i),threshold] = vqeer(distance,z,words);
         e = cputime - t;
         elap(z/2,i) = e;
-        disp(strcat('Words: ',num2str(words),' EER = ',num2str(EER(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
+        disp(strcat('Words: ',num2str(words),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
     end
 end
-    save('../Graphs/EER.mat','EER');
-    save('../Graphs/elap.mat','elap');
+%     save('../Graphs/EER.mat','EER');
+%     save('../Graphs/elap.mat','elap');

@@ -1,4 +1,4 @@
-function [EER,avg,threshold] = vqeer(distance,dur,words)
+function [EER,threshold] = vqeer(distance,dur,words)
 
 
 disp('Calculating EER.');
@@ -34,7 +34,7 @@ end
 a = unique( EER(:,1) ) ;
 b = accumarray( EER(:,1), EER(:,2), [], @mean ) ;
 EER = [a, b(a)]
-avg = mean(EER(:,2))
+AVG = mean(EER(
 
 %     errorplot = figure;
 %     plot(threshold,FAR)

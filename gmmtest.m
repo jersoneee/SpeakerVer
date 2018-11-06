@@ -1,4 +1,4 @@
-function posterior = gmmtest(gmm)
+function bigP = gmmtest(gmm)
 
 
 disp('Testing...');

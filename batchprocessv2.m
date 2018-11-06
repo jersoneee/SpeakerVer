@@ -40,7 +40,23 @@ for keyA = 0:2
             normalizemfcc(i)
         end
 
+        if keyA == 0
+            Astring = 'Male';
+        elseif keyA == 1
+            Astring = 'Female';
+        elseif keyA == 2
+            Astring = 'Both';
+        end
 
+        if keyB == 0
+            Bstring = 'MFCC';
+        elseif keyB == 1
+            Bstring = 'Delta';
+        elseif keyB == 2
+            Bstring = 'DeltaDelta';
+        end
+        
+        
 %BLOCK 3- MODEL: Makes voice models of the samples and compares them
 %against each other. EER is then determined and displayed.
 
@@ -68,25 +84,11 @@ for keyA = 0:2
                 [EER{z/2,i},avg(z/2,i),threshold] = vqeer(distance,z,words);
                 e = cputime - t;
                 elap(z/2,i) = e;
-                disp(strcat('Words: ',num2str(words),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
+                disp(strcat(Astring,Bstring,num2str(z),'seconds | Words: ',num2str(words),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
             end
         end
 
-        if keyA == 0
-            Astring = 'Male';
-        elseif keyA == 1
-            Astring = 'Female';
-        elseif keyA == 2
-            Astring = 'Both';
-        end
 
-        if keyB == 0
-            Bstring = 'MFCC';
-        elseif keyB == 1
-            Bstring = 'Delta';
-        elseif keyB == 2
-            Bstring = 'DeltaDelta';
-        end
         
         if exist('../VQResultsRaw') ~= 7
             mkdir('../VQResultsRaw');

@@ -88,10 +88,10 @@ for keyA = 0:2
             Bstring = 'DeltaDelta';
         end
         
-        if exist('../ResultsnoPre') ~= 7
-            mkdir('../ResultsnoPre');
+        if exist('../VQResultsRaw') ~= 7
+            mkdir('../VQResultsRaw');
         end
-        cd ('../ResultsnoPre');
+        cd ('../VQResultsRaw');
         
         if exist(Astring) ~= 7
             mkdir(Astring);
@@ -103,8 +103,8 @@ for keyA = 0:2
         cd ('../../SpeakerVer');
         
         
-        save(strcat('../ResultsnoPre/',Astring,'/',Bstring,'/EER.mat'),'EER');
-        save(strcat('../ResultsnoPre/',Astring,'/',Bstring,'/elap.mat'),'elap');
+        save(strcat('../VQResultsRaw/',Astring,'/',Bstring,'/EER.mat'),'EER');
+        save(strcat('../VQResultsRaw/',Astring,'/',Bstring,'/elap.mat'),'elap');
     end
 end
 
@@ -146,6 +146,24 @@ for keyA = 0:2
         end
 
 
+        if keyA == 0
+            Astring = 'Male';
+        elseif keyA == 1
+            Astring = 'Female';
+        elseif keyA == 2
+            Astring = 'Both';
+        end
+
+        if keyB == 0
+            Bstring = 'MFCC';
+        elseif keyB == 1
+            Bstring = 'Delta';
+        elseif keyB == 2
+            Bstring = 'DeltaDelta';
+        end
+  
+        
+        
 %BLOCK 3- MODEL: Makes voice models of the samples and compares them
 %against each other. EER is then determined and displayed.
 
@@ -173,30 +191,14 @@ for keyA = 0:2
                 [EER{z/2,i},avg(z/2,i),threshold] = vqeer(distance,z,words);
                 e = cputime - t;
                 elap(z/2,i) = e;
-                disp(strcat('Words: ',num2str(words),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
+                disp(strcat(Astring,Bstring,num2str(z),'seconds | Words: ',num2str(words),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
             end
         end
-
-        if keyA == 0
-            Astring = 'Male';
-        elseif keyA == 1
-            Astring = 'Female';
-        elseif keyA == 2
-            Astring = 'Both';
+      
+        if exist('../VQResultsPrepro') ~= 7
+            mkdir('../VQResultsPrepro');
         end
-
-        if keyB == 0
-            Bstring = 'MFCC';
-        elseif keyB == 1
-            Bstring = 'Delta';
-        elseif keyB == 2
-            Bstring = 'DeltaDelta';
-        end
-        
-        if exist('../Results') ~= 7
-            mkdir('../Results');
-        end
-        cd ('../Results');
+        cd ('../VQResultsPrepro');
         
         if exist(Astring) ~= 7
             mkdir(Astring);
@@ -208,7 +210,7 @@ for keyA = 0:2
         cd ('../../SpeakerVer');
         
         
-        save(strcat('../Results/',Astring,'/',Bstring,'/EER.mat'),'EER');
-        save(strcat('../Results/',Astring,'/',Bstring,'/elap.mat'),'elap');
+        save(strcat('../VQResultsPrepro/',Astring,'/',Bstring,'/EER.mat'),'EER');
+        save(strcat('../VQResultsPrepro/',Astring,'/',Bstring,'/elap.mat'),'elap');
     end
 end

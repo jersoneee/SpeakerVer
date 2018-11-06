@@ -88,19 +88,20 @@ for z = 2:2:durmax
         rmdir('experiment','s');
     end
     kfold(z,folds,samplesperspk);
-    for i = 1:9
+    for i = 1:8
         if i==9 && z==2
-            EER(z/2,9) = NaN;
+            EER{z/2,9} = NaN;
+            avg(z/2,9) = NaN;
             break;
         end
         mixtures = 2^(i-1);
         t = cputime;
         gmm = gmmlearn(mixtures);
         posterior = gmmtest(gmm);
-        [EER(z/2,i),threshold] = gmmeer(posterior,z,mixtures);
+        [EER{z/2,i},avg(z/2,i),threshold] = gmmeer(posterior,z,mixtures);
         e = cputime - t;
         elap(z/2,i) = e;
-        disp(strcat('Mixtures: ',num2str(mixtures),' EER = ',num2str(EER(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
+        disp(strcat('Mixtures: ',num2str(mixtures),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
     end
 end
     save('../Graphs/EER.mat','EER');

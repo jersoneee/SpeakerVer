@@ -9,7 +9,8 @@ a = size(distance);
 
 for l=0:(a(1)/samplesperspk)-1
     threshold = [min(distance(l*samplesperspk+1:(l+1)*samplesperspk,2)) :0.05:max(distance(l*samplesperspk+1:(l+1)*samplesperspk,2))];
-
+    range = l*samplesperspk+1:(l+1)*samplesperspk;
+    
     for i=1:numel(threshold)
         for k = l*samplesperspk+1:(l+1)*samplesperspk
             if distance(k,2) <= threshold(i)
@@ -19,11 +20,11 @@ for l=0:(a(1)/samplesperspk)-1
             end
         end
         if i==1
-            FAR = nnz(distance(:,4)>0 & distance(:,3) ~= distance(:,4))/a(1);
-            FRR = nnz(distance(:,4)==0 & distance(:,1) ~= distance(:,3))/a(1);
+            FAR = nnz(distance(range,4)>0 & distance(range,3) ~= distance(range,4))/numel(range);
+            FRR = nnz(distance(range,4)==0 & distance(range,1) == distance(range,3))/numel(range);
         else
-            FAR = [FAR nnz(distance(:,4)>0 & distance(:,3) ~= distance(:,4))/a(1)];
-            FRR = [FRR nnz(distance(:,4)==0 & distance(:,1) ~= distance(:,3))/a(1)];        
+            FAR = [FAR nnz(distance(range,4)>0 & distance(range,3) ~= distance(range,4))/numel(range)];
+            FRR = [FRR nnz(distance(range,4)==0 & distance(range,1) == distance(range,3))/numel(range)];        
         end
     end
     [X,idx] = min(abs(FAR-FRR));

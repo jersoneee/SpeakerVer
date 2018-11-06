@@ -5,6 +5,7 @@
 %BLOCK 1: DATA EXTRACTION: Extract the data from a specified folder into
 %usable segments, then save as .mat files into another folder (no feature extraction yet). Use keys
 %accordingly to specify to only extract male, female, or both.
+
 for keyA = 0:2 
     
     extractdata('data',keyA);
@@ -40,38 +41,8 @@ for keyA = 0:2
             normalizemfcc(i)
         end
 
-
-%BLOCK 3- MODEL: Makes voice models of the samples and compares them
-%against each other. EER is then determined and displayed.
-
-%BLOCK 3.1 - Perform Cross-Validation Scheme: 
-
-        folds = 5;
-        samplesperspk = 50;
-        durmax = 10;
-    
-        for z = 2:2:durmax
-            if exist('experiment') ==7
-                rmdir('experiment','s');
-            end
-            kfold(z,folds,samplesperspk);
-            for i = 1:5
-                if i==5 && z==2
-                    EER{z/2,5} = NaN;
-                    avg(z/2,5) = NaN;
-                    break;
-                end
-                words = 2^i*8;
-                t = cputime;
-                centroids = vqlearnb(words);
-                distance = vqtest(centroids,words);
-                [EER{z/2,i},avg(z/2,i),threshold] = vqeer(distance,z,words);
-                e = cputime - t;
-                elap(z/2,i) = e;
-                disp(strcat('Words: ',num2str(words),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
-            end
-        end
-
+        
+        
         if keyA == 0
             Astring = 'Male';
         elseif keyA == 1
@@ -87,11 +58,45 @@ for keyA = 0:2
         elseif keyB == 2
             Bstring = 'DeltaDelta';
         end
+                
         
-        if exist('../ResultsnoPre') ~= 7
-            mkdir('../ResultsnoPre');
+
+%BLOCK 3- MODEL: Makes voice models of the samples and compares them
+%against each other. EER is then determined and displayed.
+
+%BLOCK 3.1 - Perform Cross-Validation Scheme: 
+
+        folds = 5;
+        samplesperspk = 50;
+        durmax = 10;
+
+        for z = 2:2:durmax    
+            if exist('experiment') ==7
+                rmdir('experiment','s');
+            end
+            kfold(z,folds,samplesperspk);
+            for i = 1:9
+                if i==9 && z==2
+                    EER{z/2,9} = NaN;
+                    avg(z/2,9) = NaN;
+                    break;
+                end
+                mixtures = 2^(i-1);
+                t = cputime;
+                gmm = gmmlearn(mixtures);
+                posterior = gmmtest(gmm);
+                [EER{z/2,i},avg(z/2,i),threshold] = gmmeer(posterior,z,mixtures);
+                e = cputime - t;
+                elap(z/2,i) = e;
+                disp(strcat(Astring,Bstring,num2str(z),'seconds | Mixtures: ',num2str(mixtures),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
+            end
         end
-        cd ('../ResultsnoPre');
+
+
+        if exist('../GMMResultsRaw') ~= 7
+            mkdir('../GMMResultsRaw');
+        end
+        cd ('../GMMResultsRaw');
         
         if exist(Astring) ~= 7
             mkdir(Astring);
@@ -103,12 +108,10 @@ for keyA = 0:2
         cd ('../../SpeakerVer');
         
         
-        save(strcat('../ResultsnoPre/',Astring,'/',Bstring,'/EER.mat'),'EER');
-        save(strcat('../ResultsnoPre/',Astring,'/',Bstring,'/elap.mat'),'elap');
+        save(strcat('../GMMResultsRaw/',Astring,'/',Bstring,'/EER.mat'),'EER');
+        save(strcat('../GMMResultsRaw/',Astring,'/',Bstring,'/elap.mat'),'elap');
     end
 end
-
-
 
 for keyA = 0:2 
     
@@ -145,38 +148,8 @@ for keyA = 0:2
             normalizemfcc(i)
         end
 
-
-%BLOCK 3- MODEL: Makes voice models of the samples and compares them
-%against each other. EER is then determined and displayed.
-
-%BLOCK 3.1 - Perform Cross-Validation Scheme: 
-
-        folds = 5;
-        samplesperspk = 50;
-        durmax = 10;
-    
-        for z = 2:2:durmax
-            if exist('experiment') ==7
-                rmdir('experiment','s');
-            end
-            kfold(z,folds,samplesperspk);
-            for i = 1:5
-                if i==5 && z==2
-                    EER{z/2,5} = NaN;
-                    avg(z/2,5) = NaN;
-                    break;
-                end
-                words = 2^i*8;
-                t = cputime;
-                centroids = vqlearnb(words);
-                distance = vqtest(centroids,words);
-                [EER{z/2,i},avg(z/2,i),threshold] = vqeer(distance,z,words);
-                e = cputime - t;
-                elap(z/2,i) = e;
-                disp(strcat(Astring,Bstring,'| Words: ',num2str(words),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
-            end
-        end
-
+        
+        
         if keyA == 0
             Astring = 'Male';
         elseif keyA == 1
@@ -192,11 +165,45 @@ for keyA = 0:2
         elseif keyB == 2
             Bstring = 'DeltaDelta';
         end
+                
         
-        if exist('../Results') ~= 7
-            mkdir('../Results');
+
+%BLOCK 3- MODEL: Makes voice models of the samples and compares them
+%against each other. EER is then determined and displayed.
+
+%BLOCK 3.1 - Perform Cross-Validation Scheme: 
+
+        folds = 5;
+        samplesperspk = 50;
+        durmax = 10;
+
+        for z = 2:2:durmax    
+            if exist('experiment') ==7
+                rmdir('experiment','s');
+            end
+            kfold(z,folds,samplesperspk);
+            for i = 1:9
+                if i==9 && z==2
+                    EER{z/2,9} = NaN;
+                    avg(z/2,9) = NaN;
+                    break;
+                end
+                mixtures = 2^(i-1);
+                t = cputime;
+                gmm = gmmlearn(mixtures);
+                posterior = gmmtest(gmm);
+                [EER{z/2,i},avg(z/2,i),threshold] = gmmeer(posterior,z,mixtures);
+                e = cputime - t;
+                elap(z/2,i) = e;
+                disp(strcat(Astring,Bstring,num2str(z),'seconds | Mixtures: ',num2str(mixtures),' Average EER = ',num2str(avg(z/2,i)),'| Time Elapsed: ',num2str(e),' seconds'));
+            end
         end
-        cd ('../Results');
+
+
+        if exist('../GMMResultsPrepro') ~= 7
+            mkdir('../GMMResultsPrepro');
+        end
+        cd ('../GMMResultsPrePro');
         
         if exist(Astring) ~= 7
             mkdir(Astring);
@@ -208,7 +215,7 @@ for keyA = 0:2
         cd ('../../SpeakerVer');
         
         
-        save(strcat('../Results/',Astring,'/',Bstring,'/EER.mat'),'EER');
-        save(strcat('../Results/',Astring,'/',Bstring,'/elap.mat'),'elap');
+        save(strcat('../GMMResultsPrepro/',Astring,'/',Bstring,'/EER.mat'),'EER');
+        save(strcat('../GMMResultsPrepro/',Astring,'/',Bstring,'/elap.mat'),'elap');
     end
 end

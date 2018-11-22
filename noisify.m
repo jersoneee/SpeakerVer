@@ -34,7 +34,7 @@ cd(strcat(int2str(SNR),'dB'));
 for i=1:numel(filepath)
     load(filepath(i));
     speaker = awgn(speaker,48);
-    save(strcat(files(i).name(1:3),'-',int2str(SNR),'dB.mat'),'speaker');
+    save(strcat(files(i).name(1:end-5),'-',int2str(SNR),'dB.mat'),'speaker');
 end
 
 cd ..;

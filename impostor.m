@@ -40,7 +40,7 @@ for i=1:numel(filepath)
         speaker(:,k) = shiftPitch(speaker(:,k),pitchchange,0.3,fs);
         %audiowrite(strcat(files(i).name(1:3),' (',num2str(SNR),').wav'),speaker(:,k),fs);
     end
-    save(strcat(files(i).name(1:3),'(',num2str(pitchchange),').mat'),'speaker');
+    save(strcat(files(i).name(1:end-5),'(',num2str(pitchchange),').mat'),'speaker');
 end
 
 cd ..;

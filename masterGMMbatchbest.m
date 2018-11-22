@@ -18,11 +18,10 @@ for keyA = 0:1
             rmdir('../noisyextracts','s');
         end    
         noisify(SNR,duration)
-        
-        datapath = 'noisyextracts';
+                datapath = 'dataextracts';
 
 %BLOCK 2: Extract MFCC Coefficients: Extract MFCC coefficients from the
-%specified datapath. Provides an option to extract only the main
+%specified datapath. Prov   ides an option to extract only the main
 %coefficients, or add the first and/or second derivatives.
 % i: specifies the duration
 
@@ -40,8 +39,32 @@ for keyA = 0:1
             rmdir('../mfccextracts','s');
         end
         normalizemfcc(duration)
+        
+        movefile('../mfccextracts','../mfccsource','f');
 
+        datapath = 'noisyextracts';
 
+%BLOCK 2: Extract MFCC Coefficients: Extract MFCC coefficients from the
+%specified datapath. Prov   ides an option to extract only the main
+%coefficients, or add the first and/or second derivatives.
+% i: specifies the duration
+
+        if exist('../mfccunnorm') == 7
+            rmdir('../mfccunnorm','s');
+        end
+        extractmfcc(datapath,duration,keyB)
+    
+%BLOCK 2.5: Normalize MFCC Coefficients. For distance-based metrics (like VQ),
+%normalization will help in improving classification. Subtracts every coefficients with its overall mean,
+%and divides by the population's standard deviation.
+% i: specifies the duration
+
+        if exist('../mfccextracts') == 7
+            rmdir('../mfccextracts','s');
+        end
+        normalizemfcc(duration)
+        
+        
         if keyA == 0
             Astring = 'Male';
         elseif keyA == 1
@@ -58,6 +81,21 @@ for keyA = 0:1
             rmdir('experiment','s');
         end
         kfold(duration,folds,samplesperspk);
+        
+        for k=1:5
+            rmdir(strcat('experiment/k',int2str(k),'/dev'),'s');
+            movefile(strcat('experiment/k',int2str(k),'/test'),strcat('experiment/k',int2str(k),'/testt'),'f');
+        end
+        
+        rmdir('../mfccextracts','s');
+        movefile('../mfccsource','../mfccextracts','f');
+        kfold(duration,folds,samplesperspk);
+        for k=1:5
+            rmdir(strcat('experiment/k',int2str(k),'/test'),'s');
+            movefile(strcat('experiment/k',int2str(k),'/testt'),strcat('experiment/k',int2str(k),'/test'),'f');
+        end
+
+        
         t = cputime;
         gmm = gmmlearn(mixtures);
         posterior = gmmtest(gmm);
@@ -95,10 +133,10 @@ for keyA = 0:1
         end    
         impostor(pitch,duration)
         
-        datapath = 'fakeextracts';
+        datapath = 'dataextracts';
 
 %BLOCK 2: Extract MFCC Coefficients: Extract MFCC coefficients from the
-%specified datapath. Provides an option to extract only the main
+%specified datapath. Prov   ides an option to extract only the main
 %coefficients, or add the first and/or second derivatives.
 % i: specifies the duration
 
@@ -116,8 +154,32 @@ for keyA = 0:1
             rmdir('../mfccextracts','s');
         end
         normalizemfcc(duration)
+        
+        movefile('../mfccextracts','../mfccsource','f');
 
+        datapath = 'fakeextracts';
 
+%BLOCK 2: Extract MFCC Coefficients: Extract MFCC coefficients from the
+%specified datapath. Prov   ides an option to extract only the main
+%coefficients, or add the first and/or second derivatives.
+% i: specifies the duration
+
+        if exist('../mfccunnorm') == 7
+            rmdir('../mfccunnorm','s');
+        end
+        extractmfcc(datapath,duration,keyB)
+    
+%BLOCK 2.5: Normalize MFCC Coefficients. For distance-based metrics (like VQ),
+%normalization will help in improving classification. Subtracts every coefficients with its overall mean,
+%and divides by the population's standard deviation.
+% i: specifies the duration
+
+        if exist('../mfccextracts') == 7
+            rmdir('../mfccextracts','s');
+        end
+        normalizemfcc(duration)
+        
+        
         if keyA == 0
             Astring = 'Male';
         elseif keyA == 1
@@ -134,6 +196,20 @@ for keyA = 0:1
             rmdir('experiment','s');
         end
         kfold(duration,folds,samplesperspk);
+        
+        for k=1:5
+            rmdir(strcat('experiment/k',int2str(k),'/dev'),'s');
+            movefile(strcat('experiment/k',int2str(k),'/test'),strcat('experiment/k',int2str(k),'/testt'),'f');
+        end
+        
+        rmdir('../mfccextracts','s');
+        movefile('../mfccsource','../mfccextracts','f');
+        kfold(duration,folds,samplesperspk);
+        for k=1:5
+            rmdir(strcat('experiment/k',int2str(k),'/test'),'s');
+            movefile(strcat('experiment/k',int2str(k),'/testt'),strcat('experiment/k',int2str(k),'/test'),'f');
+        end
+        
         t = cputime;
         gmm = gmmlearn(mixtures);
         posterior = gmmtest(gmm);
